@@ -537,6 +537,7 @@ library.utility = utility
 
 function library:Unload()
     actionservice:UnbindAction('FreezeMovement');
+    self.mouse_area:Destroy()
     library.unloaded:Fire();
     for _,c in next, self.connections do
         c:Disconnect()
@@ -649,7 +650,7 @@ function library:init()
     if syn then syn.protect_gui(screenGui); end
     screenGui.Parent = game:GetService('CoreGui');
     screenGui.Enabled = true;
-    self.mouse_area = utility:Instance('ImageButton', {
+    utility:Instance('ImageButton', {
         Parent = screenGui,
         Visible = true,
         Modal = true,
@@ -658,10 +659,7 @@ function library:init()
         Transparency = 1;
     })
 
-    utility:Connection(library.unloaded, function()
-        self.mouse_area:Destroy()
-        screenGui:Destroy()
-    end)
+    self.mouse_area = screenGui
 
     utility:Connection(inputservice.InputBegan, function(input, gpe)
         if self.hasInit then
