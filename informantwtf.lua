@@ -535,6 +535,7 @@ end
 library.utility = utility
 
 function library:Unload()
+    actionservice:UnbindAction('FreezeMovement');
     library.unloaded:Fire();
     for _,c in next, self.connections do
         c:Disconnect()
