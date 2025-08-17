@@ -60,16 +60,17 @@ local library = {
         ['ping'] = 0;
     };
     images = {
-        ['gradientp90'] = 'https://raw.githubusercontent.com/portallol/luna/main/modules/gradient90.png';
-        ['gradientp45'] = 'https://raw.githubusercontent.com/portallol/luna/main/modules/gradient45.png';
-        ['colorhue'] = 'https://raw.githubusercontent.com/portallol/luna/main/modules/lgbtqshit.png';
-        ['colortrans'] = 'https://raw.githubusercontent.com/portallol/luna/main/modules/trans.png';
+        ['gradientp90'] = 'https://raw.githubusercontent.com/xtrtle304/informantwtf/refs/heads/main/assets/gradient90.png';
+        ['gradientp45'] = 'https://raw.githubusercontent.com/xtrtle304/informantwtf/refs/heads/main/assets/gradient45.png';
+        ['colorhue'] = 'https://raw.githubusercontent.com/xtrtle304/informantwtf/refs/heads/main/assets/lgbtqshit.png';
+        ['colortrans'] = 'https://raw.githubusercontent.com/xtrtle304/informantwtf/refs/heads/main/assets/trans.png';
     };
     numberStrings = {['Zero'] = 0, ['One'] = 1, ['Two'] = 2, ['Three'] = 3, ['Four'] = 4, ['Five'] = 5, ['Six'] = 6, ['Seven'] = 7, ['Eight'] = 8, ['Nine'] = 9};
-    signal = loadstring(game:HttpGet('https://raw.githubusercontent.com/drillygzzly/Other/main/1414'))();
+    signal = loadstring(game:HttpGet('https://raw.githubusercontent.com/xtrtle304/informantwtf/refs/heads/main/assets/signal.lua'))();
     open = false;
     opening = false;
     hasInit = false;
+    mouse_area = nil;
     cheatname = startupArgs.cheatname or 'octohook';
     gamename = startupArgs.gamename or 'universal';
     fileext = startupArgs.fileext or '.txt';
@@ -648,7 +649,7 @@ function library:init()
     if syn then syn.protect_gui(screenGui); end
     screenGui.Parent = game:GetService('CoreGui');
     screenGui.Enabled = true;
-    utility:Instance('ImageButton', {
+    self.mouse_area = utility:Instance('ImageButton', {
         Parent = screenGui,
         Visible = true,
         Modal = true,
@@ -658,6 +659,7 @@ function library:init()
     })
 
     utility:Connection(library.unloaded, function()
+        self.mouse_area:Destroy()
         screenGui:Destroy()
     end)
 
