@@ -254,8 +254,9 @@ local mb1down = false;
 local utility = library.utility
 do
 
-    function utility:Connection(signal, func)
-        local c = signal:Connect(func)
+    function utility:Connection(signal, func, is_once)
+        local c
+        if is_once then c = signal:Once(func) else c = signal:Connect(func) end
         table.insert(library.connections, c)
         return c
     end
@@ -3967,6 +3968,42 @@ function library:init()
                             Parent = objs.holder;
                         })
 
+                        local z2 = z+6;
+                        objs.mode_background = utility:Draw('Square', {
+                            ThemeColor = 'Group Background';
+                            ZIndex = z2;
+                            Visible = false;
+                        })
+
+                        objs.mode_border1 = utility:Draw('Square', {
+                            Size = UDim2.new(1,2,1,2);
+                            Position = UDim2.new(0,-1,0,-1);
+                            ThemeColor = 'Border 1';
+                            ZIndex = z-1;
+                            Parent = objs.mode_background;
+                        })
+
+                        objs.mode_border2 = utility:Draw('Square', {
+                            Size = UDim2.new(1,4,1,4);
+                            Position = UDim2.new(0,-2,0,-2);
+                            ThemeColor = 'Border 2';
+                            ZIndex = z-2;
+                            Parent = objs.mode_background;
+                        })
+
+                        for index, mode in ipairs({"Hold", "Toggle", "Always On", "Always Off"}) do
+                            index = index - 1
+                            objs['mode_'..mode] = utility:Draw('Text', {
+                                Position = UDim2.new(0,3 + (index * 13),0,0);
+                                ThemeColor = 'Primary Text';
+                                Size = 13;
+                                Font = 2;
+                                ZIndex = z+1;
+                                Outline = true;
+                                Parent = objs.mode_background;
+                            })
+                        end
+
                         utility:Connection(objs.holder.MouseEnter, function()
                             objs.keyText.ThemeColor = 'Accent';
                         end)
@@ -3981,6 +4018,10 @@ function library:init()
                                 bind.binding = true;
                             end
                         end)
+
+                        utility:Connection(objs.holder.MouseButton2Down, function()
+                            objs.mode_background.Visible = true
+                        end, true)
 
                     end
                     ----------------------
