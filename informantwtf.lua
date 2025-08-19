@@ -3970,6 +3970,7 @@ function library:init()
 
                         local z2 = z+6;
                         objs.mode_background = utility:Draw('Square', {
+                            Size = newUDim2(0, 25, 0, 50);
                             ThemeColor = 'Group Background';
                             ZIndex = z2;
                             Visible = false;
@@ -4020,7 +4021,10 @@ function library:init()
                         end)
 
                         utility:Connection(objs.holder.MouseButton2Down, function()
+                            local mouse_pos = inputservice:GetMouseLocation()
+
                             objs.mode_background.Visible = true
+                            objs.mode_background.Position = newUDim2(0, mouse_pos.x, 0, mouse_pos.y)
                         end, true)
 
                     end
